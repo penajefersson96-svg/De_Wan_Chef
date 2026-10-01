@@ -170,34 +170,45 @@
         });
 
         function downloadQR() {
-            const qrCard = document.getElementById('qr-card');
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = '⏳ Generando...';
-            btn.disabled = true;
+    const qrCard = document.getElementById('qr-card');
+    const btnGroup = document.querySelector('.btn-group');
+    const btn = event.target;
+    const originalText = btn.textContent;
+    
+    // Ocultar botones antes de capturar
+    btnGroup.style.display = 'none';
+    btn.textContent = '⏳ Generando...';
+    btn.disabled = true;
+    
+    // Esperar un momento para que el DOM se actualice
+    setTimeout(() => {
+        html2canvas(qrCard, {
+            scale: 1.5,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: '#ffffff',
+            logging: false,
+            width: qrCard.offsetWidth,
+            height: qrCard.offsetHeight
+        }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = 'QR-De-wan-chef.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
             
-            html2canvas(qrCard, {
-                scale: 1.5,
-                useCORS: true,
-                allowTaint: true,
-                backgroundColor: '#ffffff',
-                logging: false,
-                width: qrCard.offsetWidth,
-                height: qrCard.offsetHeight
-            }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'QR-De-wan-chef.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-                btn.textContent = originalText;
-                btn.disabled = false;
-            }).catch(err => {
-                console.error(err);
-                btn.textContent = originalText;
-                btn.disabled = false;
-                alert('Error al generar. Intenta de nuevo.');
-            });
-        }
+            // Restaurar botones
+            btnGroup.style.display = 'flex';
+            btn.textContent = originalText;
+            btn.disabled = false;
+        }).catch(err => {
+            console.error(err);
+            btnGroup.style.display = 'flex';
+            btn.textContent = originalText;
+            btn.disabled = false;
+            alert('Error al generar. Intenta de nuevo.');
+        });
+    }, 100);
+}
     </script>
 </body>
 </html>

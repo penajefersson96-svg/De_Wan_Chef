@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR De wan chef</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -15,103 +16,232 @@
             align-items: center;
             justify-content: center;
             padding: 1rem;
+            position: relative;
+            overflow: hidden;
         }
+        
+        /* Patrón de fondo decorativo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 20px,
+                    rgba(255,255,255,0.05) 20px,
+                    rgba(255,255,255,0.05) 40px
+                );
+            pointer-events: none;
+        }
+        
         .qr-card {
             background: white;
             border-radius: 24px;
             padding: 2.5rem 2rem;
-            max-width: 380px;
+            max-width: 400px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+            border: 5px solid #E8572A;
+            position: relative;
+            z-index: 1;
         }
+        
+        /* Elementos decorativos en las esquinas */
+        .qr-card::before,
+        .qr-card::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 4px solid #C41E3A;
+            opacity: 0.3;
+        }
+        .qr-card::before {
+            top: 10px;
+            left: 10px;
+            border-right: none;
+            border-bottom: none;
+            border-radius: 20px 0 0 0;
+        }
+        .qr-card::after {
+            bottom: 10px;
+            right: 10px;
+            border-left: none;
+            border-top: none;
+            border-radius: 0 0 20px 0;
+        }
+        
         .qr-card img.logo {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             margin-bottom: 1rem;
-            border: 3px solid #E8572A;
+            border: 4px solid #E8572A;
+            box-shadow: 0 4px 12px rgba(232, 87, 42, 0.3);
         }
         .qr-card h1 {
             color: #E8572A;
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             margin-bottom: 0.3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
         .qr-card .tagline {
             color: #666;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             margin-bottom: 1.5rem;
+            font-style: italic;
         }
-        #qrcode {
+        #qrcode-container {
             display: flex;
             justify-content: center;
-            margin: 1.5rem 0;
-            padding: 1rem;
-            background: #FFF5E6;
-            border-radius: 16px;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: 
+                linear-gradient(135deg, #FFF5E6 0%, #FFE4CC 100%),
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(232, 87, 42, 0.05) 10px,
+                    rgba(232, 87, 42, 0.05) 20px
+                );
+            border-radius: 20px;
+            border: 3px dashed #E8572A;
+            position: relative;
+        }
+        #qrcode-container::before {
+            content: '🍜';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 2rem;
+            opacity: 0.2;
+        }
+        #qrcode-container::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            left: 15px;
+            font-size: 2rem;
+            opacity: 0.2;
+        }
+        #qrcode img {
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         .cta-text {
             color: #1a1a1a;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
             margin-top: 1rem;
             line-height: 1.4;
         }
         .cta-text span {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: #666;
             font-weight: 500;
             margin-top: 0.5rem;
         }
-        .print-btn {
+        .btn-group {
+            display: flex;
+            gap: 0.8rem;
             margin-top: 2rem;
-            background: #E8572A;
-            color: white;
+        }
+        .btn {
+            flex: 1;
+            padding: 1rem;
             border: none;
-            padding: 1rem 2rem;
             border-radius: 25px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
-            width: 100%;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
+        .btn-download {
+            background: linear-gradient(135deg, #E8572A 0%, #C41E3A 100%);
+            color: white;
+        }
+        .btn-download:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(232, 87, 42, 0.4);
+        }
+        .btn-print {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+        }
+        .btn-print:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+        }
+        
         @media print {
-            .print-btn { display: none; }
+            .btn-group { display: none; }
             body { background: white; }
-            .qr-card { box-shadow: none; border: 2px solid #E8572A; }
+            body::before { display: none; }
+            .qr-card { 
+                box-shadow: none; 
+                border: 4px solid #E8572A;
+                page-break-inside: avoid;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="qr-card">
-        <!-- Asegúrate de tener el logo.png en la carpeta assets -->
+    <div class="qr-card" id="qr-card">
         <img src="assets/logo.png" alt="De wan chef" class="logo">
         <h1>De wan chef</h1>
         <p class="tagline">Sabor chino auténtico y al wok</p>
         
-        <div id="qrcode"></div>
+        <div id="qrcode-container">
+            <div id="qrcode"></div>
+        </div>
         
         <p class="cta-text">
-            📱 Escanea y pide desde tu celular
+             Escanea y pide desde tu celular
             <span>Menú digital • Precios en USD y Bs • Pedido directo a WhatsApp</span>
         </p>
         
-        <button class="print-btn" onclick="window.print()">🖨️ Imprimir este QR</button>
+        <div class="btn-group">
+            <button class="btn btn-download" onclick="downloadQR()">📥 Descargar PNG</button>
+            <button class="btn btn-print" onclick="window.print()">🖨️ Imprimir</button>
+        </div>
     </div>
 
     <script>
-        // URL REAL DE TU SITIO EN NETLIFY
         const siteURL = 'https://dewanchef.netlify.app/';
         
-        new QRCode(document.getElementById('qrcode'), {
+        const qrCode = new QRCode(document.getElementById('qrcode'), {
             text: siteURL,
-            width: 220,
-            height: 220,
-            colorDark: '#C41E3A', // Rojo oscuro para mejor contraste del scanner
-            colorLight: '#FFF5E6', // Fondo crema
+            width: 240,
+            height: 240,
+            colorDark: '#C41E3A',
+            colorLight: '#FFF5E6',
             correctLevel: QRCode.CorrectLevel.H
         });
+
+        function downloadQR() {
+            const qrCard = document.getElementById('qr-card');
+            
+            html2canvas(qrCard, {
+                scale: 3,
+                useCORS: true,
+                backgroundColor: '#ffffff',
+                logging: false
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'QR-De-wan-chef.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
     </script>
 </body>
 </html>

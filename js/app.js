@@ -372,4 +372,41 @@ function showInstallInstructions() {
 if (window.matchMedia('(display-mode: standalone)').matches) {
     installBtn.style.display = 'none';
     addHomeBtn.style.display = 'none';
+    // Eliminar badge de Netlify completamente
+function removeNetlifyBadge() {
+    const selectors = [
+        '#nf-banner',
+        '[data-netlify-banner]',
+        '.netlify-badge',
+        'footer[aria-label*="Netlify"]',
+        'iframe[src*="netlify"]',
+        '[class*="netlify"]'
+    ];
+    
+    selectors.forEach(selector => {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach(el => {
+            el.remove();
+            el.style.display = 'none';
+            el.style.visibility = 'hidden';
+        });
+    });
+    
+    // Observar cambios en el DOM y eliminar si aparece
+    const observer = new MutationObserver(() => {
+        removeNetlifyBadge();
+    });
+    
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+}
+
+// Ejecutar al cargar
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', removeNetlifyBadge);
+} else {
+    removeNetlifyBadge();
+}
 }

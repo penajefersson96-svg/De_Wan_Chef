@@ -329,3 +329,13 @@ footer { background: #1a1a1a; color: white; padding: 2.5rem 1rem; margin-top: 3r
 #nf-banner, [data-netlify-banner], .netlify-badge {
     display: none !important;
 }
+/* Nuclear option - ocultar cualquier cosa de Netlify */
+[id*="netlify"],
+[class*="netlify"],
+[data-netlify],
+footer:last-of-type {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}

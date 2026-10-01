@@ -326,3 +326,6 @@ footer { background: #1a1a1a; color: white; padding: 2.5rem 1rem; margin-top: 3r
         margin-bottom: 0.5rem;
     }
 }
+#nf-banner, [data-netlify-banner], .netlify-badge {
+    display: none !important;
+}

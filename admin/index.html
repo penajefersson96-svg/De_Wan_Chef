@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - De wan chef</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#E8572A">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            padding: 1rem;
+            padding-bottom: 100px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { color: #E8572A; margin-bottom: 1.5rem; font-size: 1.8rem; }
+        .section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .section h2 { color: #E8572A; margin-bottom: 1rem; font-size: 1.3rem; }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #555; }
+        input, select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        input:focus, select:focus { outline: none; border-color: #E8572A; }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .btn-primary { background: #E8572A; color: white; }
+        .btn-primary:hover { background: #C41E3A; }
+        .btn-success { background: #25D366; color: white; }
+        .btn-success:hover { background: #128C7E; }
+        .btn-danger { background: #C41E3A; color: white; padding: 0.5rem 0.8rem; }
+        .btn-danger:hover { background: #8B0000; }
+        .btn-secondary { background: #666; color: white; }
+        .btn-secondary:hover { background: #444; }
+        
+        .category-block {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .category-block h3 { color: #333; margin-bottom: 0.8rem; font-size: 1.1rem; }
+        
+        .item-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 0.5rem;
+            align-items: center;
+            padding: 0.8rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        .item-row.single-price {
+            grid-template-columns: 2fr 1fr auto;
+        }
+        .item-name { font-weight: 500; font-size: 0.95rem; }
+        .item-row input {
+            padding: 0.5rem;
+            font-size: 0.95rem;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+        }
+        .item-row input:focus { border-color: #E8572A; }
+        .price-label {
+            font-size: 0.75rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 0.2rem;
+        }
+        
+        .status {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+            font-weight: 600;
+        }
+        .status.success { background: #d4edda; color: #155724; display: block; }
+        .status.error { background: #f8d7da; color: #721c24; display: block; }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #E8572A;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .login-screen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #E8572A 0%, #C41E3A 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .login-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .login-box h2 {
+            color: #E8572A;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .login-box .form-group { margin-bottom: 1.2rem; }
+        .login-box .btn { width: 100%; margin-top: 1rem; }
+        .login-error {
+            color: #C41E3A;
+            text-align: center;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+        
+        .admin-content { display: none; }
+        .admin-content.visible { display: block; }
+        
+        .photo-upload {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .photo-upload input[type="file"] {
+            margin: 0.5rem 0;
+        }
+        .photo-preview {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+        }
+        
+        @media (max-width: 600px) {
+            .item-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            .item-row.single-price {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN SCREEN -->
+    <div class="login-screen" id="login-screen">
+        <div class="login-box">
+            <h2>🔐 Acceso Admin</h2>
+            <div class="form-group">
+                <label>Usuario</label>
+                <input type="text" id="login-user" placeholder="Usuario">
+            </div>
+            <div class="form-group">
+    <label>Contraseña</label>
+    <div style="position: relative;">
+        <input type="password" id="login-pass" placeholder="Contraseña" style="padding-right: 6rem;">
+        <button type="button" id="toggle-pass-btn" onclick="togglePassword()" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #E8572A; font-weight: 700; font-size: 0.85rem; padding: 4px 8px; letter-spacing: 0.5px;">
+            MOSTRAR
+        </button>
+    </div>
+</div>
+            <button class="btn btn-primary" onclick="doLogin()">Ingresar</button>
+            <p class="login-error" id="login-error">Usuario o contraseña incorrectos</p>
+        </div>
+    </div>
+
+    <!-- ADMIN CONTENT -->
+    <div class="admin-content" id="admin-content">
+        <div class="container">
+            <a href="../index.html" class="back-link">← Volver a la página</a>
+            <h1>🛠️ Panel de Administración</h1>
+            
+            <!-- CAMBIAR CREDENCIALES -->
+            <div class="section">
+                <h2> Cambiar Credenciales</h2>
+                <div class="form-group">
+                    <label>Nuevo usuario</label>
+                    <input type="text" id="new-user" placeholder="Nuevo usuario">
+                </div>
+                <div class="form-group">
+                    <label>Nueva contraseña</label>
+                    <input type="password" id="new-pass" placeholder="Nueva contraseña">
+                </div>
+                <button class="btn btn-primary" onclick="updateCredentials()">Actualizar credenciales</button>
+            </div>
+            
+            <!-- TASA DEL DÓLAR -->
+            <div class="section">
+                <h2>💱 Tasa del Dólar</h2>
+                <div class="form-group">
+                    <label>1 USD = Bs.</label>
+                    <input type="number" id="rate-input" step="0.01" placeholder="36.50">
+                </div>
+                <button class="btn btn-primary" onclick="updateRate()">Actualizar tasa</button>
+                <p style="margin-top: 0.5rem; color: #666; font-size: 0.9rem;">
+                    Última actualización: <span id="last-update">-</span>
+                </p>
+            </div>
+            
+            <!-- MENÚ -->
+            <div class="section">
+                <h2>🍽️ Gestión del Menú</h2>
+                <p style="color: #666; margin-bottom: 1rem;">
+                    Edita los precios directamente en los campos.
+                </p>
+                <div id="menu-editor"></div>
+                <button class="btn btn-success" onclick="saveMenu()">💾 Guardar cambios</button>
+                <button class="btn btn-secondary" onclick="exportJSON()">📤 Exportar JSON</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">📥 Importar JSON</button>
+                <input type="file" id="import-file" accept=".json" style="display:none" onchange="importJSON(event)">
+            </div>
+            
+            <!-- FOTOS -->
+            <div class="section">
+                <h2>📷 Gestión de Fotos</h2>
+                <p style="color: #666; margin-bottom: 1rem;">
+                    Sube fotos para cada plato.
+                </p>
+                <div id="photo-manager"></div>
+                <button class="btn btn-success" onclick="savePhotos()">💾 Guardar fotos</button>
+            </div>
+            
+            <!-- AGREGAR PLATO -->
+            <div class="section">
+                <h2>➕ Agregar Nuevo Plato</h2>
+                <div class="form-group">
+                    <label>Categoría</label>
+                    <select id="new-item-category"></select>
+                </div>
+                <div class="form-group">
+                    <label>Nombre del plato</label>
+                    <input type="text" id="new-item-name" placeholder="Ej: Arroz con Pollo">
+                </div>
+                <div class="form-group">
+                    <label>Precio (USD)</label>
+                    <input type="number" id="new-item-price" step="0.01" placeholder="5.00">
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="has-sizes" style="width: auto; margin-right: 0.5rem;"> 
+                        Tiene media ración y ración completa
+                    </label>
+                </div>
+                <div id="sizes-fields" style="display:none;">
+                    <div class="form-group">
+                        <label>Precio ½ ración (USD)</label>
+                        <input type="number" id="new-item-half" step="0.01" placeholder="3.00">
+                    </div>
+                    <div class="form-group">
+                        <label>Precio 1 ración (USD)</label>
+                        <input type="number" id="new-item-full" step="0.01" placeholder="5.00">
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="addItem()">Agregar plato</button>
+            </div>
+            
+            <div id="status" class="status"></div>
+        </div>
+    </div>
+
+    <script>
+        // Cargar credenciales desde localStorage o usar default
+        let ADMIN_USER = localStorage.getItem('adminUser') || 'dewanchef';
+        let ADMIN_PASS = localStorage.getItem('adminPass') || 'admin2026';
+
+        let menuData = null;
+        let configData = null;
+        let photos = {};
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const isLoggedIn = sessionStorage.getItem('adminLogged');
+            if (isLoggedIn === 'true') {
+                showAdmin();
+            }
+        });
+
+        function doLogin() {
+    const user = document.getElementById('login-user').value.trim().toLowerCase();
+    const pass = document.getElementById('login-pass').value;
+    const adminUser = ADMIN_USER.trim().toLowerCase();
+    
+    if (user === adminUser && pass === ADMIN_PASS) {
+        sessionStorage.setItem('adminLogged', 'true');
+        showAdmin();
+    } else {
+        document.getElementById('login-error').style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('login-error').style.display = 'none';
+        }, 3000);
+    }
+}
+
+function togglePassword() {
+    const input = document.getElementById('login-pass');
+    const btn = document.getElementById('toggle-pass-btn');
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = 'OCULTAR';
+    } else {
+        input.type = 'password';
+        btn.textContent = 'MOSTRAR';
+    }
+}
+
+        function showAdmin() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('admin-content').classList.add('visible');
+            initAdmin();
+        }
+
+        async function initAdmin() {
+            await loadData();
+            renderMenuEditor();
+            renderPhotoManager();
+            renderCategorySelect();
+            document.getElementById('rate-input').value = configData.currency.usdToVes;
+            document.getElementById('last-update').textContent = configData.currency.lastUpdate || 'Nunca';
+            
+            document.getElementById('has-sizes').addEventListener('change', (e) => {
+                document.getElementById('sizes-fields').style.display = e.target.checked ? 'block' : 'none';
+            });
+        }
+
+        async function loadData() {
+            try {
+                const menuRes = await fetch('../menu.json');
+                const configRes = await fetch('../config.json');
+                menuData = await menuRes.json();
+                configData = await configRes.json();
+                
+                // Cargar fotos desde localStorage si existen
+                const savedPhotos = localStorage.getItem('dishPhotos');
+                if (savedPhotos) {
+                    photos = JSON.parse(savedPhotos);
+                }
+            } catch (err) {
+                showStatus('Error al cargar datos: ' + err.message, 'error');
+            }
+        }
+
+        function updateCredentials() {
+    const newUser = document.getElementById('new-user').value.trim().toLowerCase();
+    const newPass = document.getElementById('new-pass').value;
+    
+    if (!newUser || !newPass) {
+        return showStatus('Usuario y contraseña son obligatorios', 'error');
+    }
+    
+    localStorage.setItem('adminUser', newUser);
+    localStorage.setItem('adminPass', newPass);
+    
+    ADMIN_USER = newUser;
+    ADMIN_PASS = newPass;
+    
+    showStatus('✅ Credenciales actualizadas.', 'success');
+    
+    document.getElementById('new-user').value = '';
+    document.getElementById('new-pass').value = '';
+}
+
+        function renderMenuEditor() {
+            const container = document.getElementById('menu-editor');
+            container.innerHTML = '';
+            
+            menuData.categories.forEach((cat, catIdx) => {
+                const block = document.createElement('div');
+                block.className = 'category-block';
+                block.innerHTML = `<h3>${cat.name}</h3>`;
+                
+                cat.items.forEach((item, itemIdx) => {
+                    const row = document.createElement('div');
+                    
+                    if (item.half !== undefined && item.full !== undefined) {
+                        row.className = 'item-row';
+                        row.innerHTML = `
+                            <span class="item-name">${item.name}</span>
+                            <div>
+                                <div class="price-label">½ ración</div>
+                                <input type="number" step="0.01" value="${item.half}" onchange="updatePrice(${catIdx}, ${itemIdx}, 'half', this.value)">
+                            </div>
+                            <div>
+                                <div class="price-label">1 ración</div>
+                                <input type="number" step="0.01" value="${item.full}" onchange="updatePrice(${catIdx}, ${itemIdx}, 'full', this.value)">
+                            </div>
+                            <button class="btn btn-danger" onclick="deleteItem(${catIdx}, ${itemIdx})">🗑️</button>
+                        `;
+                    } else {
+                        row.className = 'item-row single-price';
+                        row.innerHTML = `
+                            <span class="item-name">${item.name}</span>
+                            <div>
+                                <div class="price-label">Precio</div>
+                                <input type="number" step="0.01" value="${item.price}" onchange="updatePrice(${catIdx}, ${itemIdx}, 'price', this.value)">
+                            </div>
+                            <button class="btn btn-danger" onclick="deleteItem(${catIdx}, ${itemIdx})">🗑️</button>
+                        `;
+                    }
+                    block.appendChild(row);
+                });
+                
+                container.appendChild(block);
+            });
+        }
+
+        function renderPhotoManager() {
+            const container = document.getElementById('photo-manager');
+            container.innerHTML = '';
+            
+            menuData.categories.forEach(cat => {
+                cat.items.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'photo-upload';
+                    const hasPhoto = photos[item.id] ? 'block' : 'none';
+                    div.innerHTML = `
+                        <strong>${item.name}</strong>
+                        <p style="font-size: 0.85rem; color: #666;">ID: ${item.id}</p>
+                        <input type="file" accept="image/*" onchange="handlePhotoUpload('${item.id}', this)">
+                        <br>
+                        <img id="preview-${item.id}" class="photo-preview" style="display:${hasPhoto};" src="${photos[item.id] || ''}">
+                    `;
+                    container.appendChild(div);
+                });
+            });
+        }
+
+        function handlePhotoUpload(itemId, input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                photos[itemId] = e.target.result;
+                const preview = document.getElementById(`preview-${itemId}`);
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function savePhotos() {
+            // Guardar en localStorage (temporal hasta Firebase)
+            localStorage.setItem('dishPhotos', JSON.stringify(photos));
+            showStatus('✅ Fotos guardadas correctamente.', 'success');
+        }
+
+        function renderCategorySelect() {
+            const select = document.getElementById('new-item-category');
+            select.innerHTML = '';
+            menuData.categories.forEach((cat, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.textContent = cat.name;
+                select.appendChild(opt);
+            });
+        }
+
+        function updatePrice(catIdx, itemIdx, field, value) {
+            menuData.categories[catIdx].items[itemIdx][field] = parseFloat(value);
+        }
+
+        function deleteItem(catIdx, itemIdx) {
+            if (confirm('¿Eliminar este plato?')) {
+                menuData.categories[catIdx].items.splice(itemIdx, 1);
+                renderMenuEditor();
+                showStatus('Plato eliminado. Presiona "Guardar cambios" para aplicar.', 'success');
+            }
+        }
+
+        function addItem() {
+            const catIdx = parseInt(document.getElementById('new-item-category').value);
+            const name = document.getElementById('new-item-name').value.trim();
+            const hasSizes = document.getElementById('has-sizes').checked;
+            
+            if (!name) return showStatus('El nombre es obligatorio', 'error');
+            
+            const newItem = { id: 'item-' + Date.now(), name };
+            
+            if (hasSizes) {
+                const half = parseFloat(document.getElementById('new-item-half').value);
+                const full = parseFloat(document.getElementById('new-item-full').value);
+                if (!half || !full) return showStatus('Precios de raciones obligatorios', 'error');
+                newItem.half = half;
+                newItem.full = full;
+            } else {
+                const price = parseFloat(document.getElementById('new-item-price').value);
+                if (!price) return showStatus('Precio obligatorio', 'error');
+                newItem.price = price;
+            }
+            
+            menuData.categories[catIdx].items.push(newItem);
+            renderMenuEditor();
+            renderPhotoManager();
+            
+            document.getElementById('new-item-name').value = '';
+            document.getElementById('new-item-price').value = '';
+            document.getElementById('new-item-half').value = '';
+            document.getElementById('new-item-full').value = '';
+            document.getElementById('has-sizes').checked = false;
+            document.getElementById('sizes-fields').style.display = 'none';
+            
+            showStatus('Plato agregado. Presiona "Guardar cambios" para aplicar.', 'success');
+        }
+
+        function updateRate() {
+            const rate = parseFloat(document.getElementById('rate-input').value);
+            if (!rate || rate <= 0) return showStatus('Tasa inválida', 'error');
+            
+            configData.currency.usdToVes = rate;
+            configData.currency.lastUpdate = new Date().toISOString().split('T')[0];
+            document.getElementById('last-update').textContent = configData.currency.lastUpdate;
+            
+            // Guardar en localStorage (temporal hasta Firebase)
+            localStorage.setItem('currencyRate', JSON.stringify({
+                rate: rate,
+                lastUpdate: configData.currency.lastUpdate
+            }));
+            
+            showStatus('✅ Tasa actualizada correctamente.', 'success');
+        }
+
+        function saveMenu() {
+            // Guardar en localStorage (temporal hasta Firebase)
+            localStorage.setItem('menuData', JSON.stringify(menuData));
+            showStatus('✅ Menú guardado correctamente.', 'success');
+        }
+
+        function downloadJSON(filename, data) {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function exportJSON() {
+            downloadJSON('menu.json', menuData);
+            showStatus('✅ JSON exportado.', 'success');
+        }
+
+        function importJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    menuData = JSON.parse(e.target.result);
+                    renderMenuEditor();
+                    renderPhotoManager();
+                    renderCategorySelect();
+                    showStatus('✅ JSON importado correctamente', 'success');
+                } catch (err) {
+                    showStatus('Error al leer el archivo: ' + err.message, 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function showStatus(msg, type) {
+            const el = document.getElementById('status');
+            el.textContent = msg;
+            el.className = 'status ' + type;
+            setTimeout(() => el.className = 'status', 4000);
+        }
+
+        document.getElementById('login-pass').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') doLogin();
+        });
+    </script>
+</body>
+</html>

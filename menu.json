@@ -1,0 +1,113 @@
+{
+  "categories": [
+    {
+      "id": "combos-1",
+      "name": "Combos de 1 Contorno",
+      "description": "Arroz con pollo, jamón y cerdo",
+      "items": [
+        {"id": "c1-1", "name": "Arroz con Chopsuey", "half": 3.00, "full": 5.00},
+        {"id": "c1-2", "name": "Arroz con Pollo Agridulce", "half": 3.00, "full": 5.00},
+        {"id": "c1-3", "name": "Arroz con Papitas Fritas", "half": 3.00, "full": 5.00},
+        {"id": "c1-4", "name": "Arroz con Lumpia", "half": 4.00, "full": 6.00},
+        {"id": "c1-5", "name": "Arroz con Alitas Fritas", "half": 3.00, "full": 5.00},
+        {"id": "c1-6", "name": "Arroz con Costillas", "half": 4.00, "full": 7.00}
+      ]
+    },
+    {
+      "id": "combos-2",
+      "name": "Combos de 2 Contornos",
+      "description": "Arroz con pollo, jamón y cerdo",
+      "items": [
+        {"id": "c2-1", "name": "Arroz, Lumpia, Chopsuey", "half": 5.50, "full": 8.00},
+        {"id": "c2-2", "name": "Arroz, Pollo AG, Chopsuey", "half": 5.50, "full": 8.00},
+        {"id": "c2-3", "name": "Arroz, Papitas, Chopsuey", "half": 5.00, "full": 8.00},
+        {"id": "c2-4", "name": "Arroz, Costillas, Chopsuey", "half": 5.50, "full": 9.00},
+        {"id": "c2-5", "name": "Arroz, Lumpia, Papitas", "half": 5.50, "full": 8.00},
+        {"id": "c2-6", "name": "Arroz, Lumpia, Pollo Agridulce", "half": 5.50, "full": 8.00},
+        {"id": "c2-7", "name": "Arroz, Lumpia, Costillas", "half": 6.50, "full": 9.00},
+        {"id": "c2-8", "name": "Arroz, Pollo Agridulce, Papitas", "half": 5.50, "full": 8.00},
+        {"id": "c2-9", "name": "Arroz, Pollo Agridulce, Costillas", "half": 6.50, "full": 9.00},
+        {"id": "c2-10", "name": "Arroz, Papitas, Costillas", "half": 6.50, "full": 9.00},
+        {"id": "c2-11", "name": "Arroz, Lumpia, Alitas Fritas", "half": 5.50, "full": 8.00},
+        {"id": "c2-12", "name": "Arroz, Muslo Fritas y Chopsuey", "half": 5.50, "full": 8.00},
+        {"id": "c2-13", "name": "Arroz, Alitas Fritas, Papitas", "half": 5.50, "full": 8.00},
+        {"id": "c2-14", "name": "Arroz, Alitas Fritas, Costillas", "half": 6.50, "full": 9.00}
+      ]
+    },
+    {
+      "id": "combos-3",
+      "name": "Combos de 3 Contornos",
+      "description": "Arroz con pollo, jamón y cerdo",
+      "items": [
+        {"id": "c3-1", "name": "Arroz, Papitas, Lumpia y Chopsuey", "price": 10.00},
+        {"id": "c3-2", "name": "Arroz, Papitas, Lumpia y Pollo Agridulce", "price": 10.00},
+        {"id": "c3-3", "name": "Arroz, Papitas, Pollo Agridulce y Chopsuey", "price": 10.00},
+        {"id": "c3-4", "name": "Arroz, Papitas, Costilla y Chopsuey", "price": 11.00},
+        {"id": "c3-5", "name": "Arroz, Papitas, Lumpia y Costilla", "price": 11.00},
+        {"id": "c3-6", "name": "Arroz, Lumpia, Pollo Agridulce y Costilla", "price": 11.00},
+        {"id": "c3-7", "name": "Arroz, Lumpia, Chopsuey y Costilla", "price": 11.00},
+        {"id": "c3-8", "name": "Arroz, Alitas Fritas, Chopsuey y Costilla", "price": 11.00}
+      ]
+    },
+    {
+      "id": "extras",
+      "name": "Raciones Extras",
+      "items": [
+        {"id": "e-1", "name": "Lumpia de Vegetales (2 unidades)", "price": 5.50},
+        {"id": "e-2", "name": "Papas Fritas", "price": 5.50},
+        {"id": "e-3", "name": "½ Papas Fritas", "price": 2.50},
+        {"id": "e-4", "name": "Pollo Agridulce (20 unidades)", "price": 11.00},
+        {"id": "e-5", "name": "½ Pollo Agridulce (10 unidades)", "price": 5.50},
+        {"id": "e-6", "name": "Alitas Fritas (16 unidades)", "price": 12.00},
+        {"id": "e-7", "name": "½ Alitas Fritas (8 unidades)", "price": 6.50},
+        {"id": "e-8", "name": "Muslo Fritos", "price": 2.50},
+        {"id": "e-9", "name": "Costillas (4 unidades)", "price": 13.00},
+        {"id": "e-10", "name": "Costilla (1 unidad)", "price": 4.00}
+      ]
+    },
+    {
+      "id": "tallarines",
+      "name": "Tallarines",
+      "items": [
+        {"id": "t-1", "name": "Tallarines Especial (pollo y jamón)", "price": 8.00},
+        {"id": "t-2", "name": "Tallarines Pollo y Camarones", "price": 10.00},
+        {"id": "t-3", "name": "Tallarines Cerdo y Camarones", "price": 10.00}
+      ]
+    },
+    {
+      "id": "chopsuey",
+      "name": "Chopsuey",
+      "items": [
+        {"id": "ch-1", "name": "Chopsuey Especial (pollo y jamón)", "price": 7.00},
+        {"id": "ch-2", "name": "Chopsuey Pollo con Camarones", "price": 9.00},
+        {"id": "ch-3", "name": "Chopsuey con Cerdo", "price": 8.00}
+      ]
+    },
+    {
+      "id": "arroz",
+      "name": "Arroz Chino",
+      "items": [
+        {"id": "a-1", "name": "Arroz Especial (pollo, jamón y cerdo)", "price": 4.50},
+        {"id": "a-2", "name": "Arroz con Vegetales", "price": 4.00},
+        {"id": "a-3", "name": "Arroz con Camarones", "price": 8.00},
+        {"id": "a-4", "name": "Arroz con Pollo y Camarones", "price": 8.00},
+        {"id": "a-5", "name": "Arroz con Cerdo y Camarones", "price": 8.00},
+        {"id": "a-6", "name": "Arroz con Cerdo", "price": 7.00}
+      ]
+    }
+    ,
+{
+  "id": "bebidas",
+  "name": "Bebidas",
+  "items": [
+    { "id": "b-1", "name": "Refresco 1.5L", "price": 2.50 },
+    { "id": "b-2", "name": "Refresco 1L", "price": 2.00 },
+    { "id": "b-3", "name": "Té Lipton", "price": 3.00 },
+    { "id": "b-4", "name": "Té Lipton 1.5L", "price": 6.00 },
+    { "id": "b-5", "name": "Agua Mineral", "price": 1.50 },
+    { "id": "b-6", "name": "Jugo Natural", "price": 3.50 },
+    { "id": "b-7", "name": "Cerveza", "price": 2.00 }
+  ]
+}
+  ]
+}

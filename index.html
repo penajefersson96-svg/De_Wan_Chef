@@ -1,1 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>De wan chef - Menú Digital</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#E8572A">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-top">
+            <img src="assets/logo.png" alt="De wan chef" class="logo">
+            <div class="header-text">
+                <h1>De wan chef</h1>
+                <p class="tagline">Sabor chino auténtico y al wok</p>
+            </div>
+            <div class="header-icons">
+                <button class="icon-btn" id="search-toggle" aria-label="Buscar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                </button>
+                <button class="icon-btn cart-icon" id="cart-toggle" aria-label="Carrito">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                    <span class="cart-badge" id="cart-badge">0</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="search-bar" id="search-bar">
+            <input type="text" id="search-input" placeholder="Ej: costillas, arroz..." autocomplete="off">
+            <button id="search-close">✕</button>
+        </div>
 
+        <div class="rate-banner">
+    <span>🔄 Tasa del día: </span>
+    <strong id="exchange-rate">Cargando...</strong>
+</div>
+
+<div class="install-buttons">
+    <button class="download-btn" id="install-btn" style="display:none;" onclick="installApp()">⬇️ Descargar app</button>
+    <button class="download-btn" id="add-home-btn" onclick="installApp()">⬇️ Descargar app</button>
+</div>
+</header>
+
+    <nav class="category-nav" id="category-nav">
+        <button class="nav-btn active" data-category="all">Todo</button>
+    </nav>
+
+    <main id="menu-container"></main>
+
+    <div class="cart-bar" id="cart-bar">
+        <button class="cart-bar-btn" id="cart-bar-open">
+            <span class="cart-bar-count" id="cart-bar-count">0</span>
+            <span>Ver carrito</span>
+            <span class="cart-bar-total" id="cart-bar-total">$0.00</span>
+        </button>
+    </div>
+
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-overlay" id="cart-overlay"></div>
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Tu Pedido</h2>
+                <button class="close-btn" id="cart-close">✕</button>
+            </div>
+            <div class="cart-items" id="cart-items"></div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total USD:</span>
+                    <span id="cart-total-usd">$0.00</span>
+                </div>
+                <div class="cart-total ves">
+                    <span>Total VES:</span>
+                    <span id="cart-total-ves">Bs. 0.00</span>
+                </div>
+                <button class="btn-whatsapp" id="btn-whatsapp">Enviar pedido por WhatsApp</button>
+                <button class="btn-close" id="cart-continue">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-logo">
+            <img src="assets/logo.png" alt="De wan chef">
+            <h3>De wan chef</h3>
+        </div>
+        <div class="footer-info">
+            <a href="https://maps.app.goo.gl/BtbeYCyMQnPj4yRCA" target="_blank" class="footer-link">
+                📍 Iris, Av. Independencia, Los Teques 1201, Miranda
+            </a>
+            <p>🕐 Lun-Dom 11:30am - 9:00pm</p>
+            <p>🛵 Delivery hasta 8:30pm</p>
+            <a href="tel:04228884507" class="footer-link">📞 0422-8884507</a>
+        </div>
+        <div class="footer-social">
+            <h4>Síguenos</h4>
+            <a href="https://instagram.com/dewan.chef" target="_blank">Instagram</a>
+            <a href="https://tiktok.com/@dewanchef" target="_blank">TikTok</a>
+        </div>
+        <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #333; text-align: center;">
+    <a href="admin/index.html" style="color: #666; text-decoration: none; font-size: 0.85rem;">🔐 Admin</a>
+</div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+    // PWA - Instalación de la app
+    <script>
+    let deferredPrompt;
+    const installBtn = document.getElementById('install-btn');
+    const addHomeBtn = document.getElementById('add-home-btn');
+    
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installBtn.style.display = 'inline-block';
+        addHomeBtn.style.display = 'none';
+    });
+    
+    async function installApp() {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                installBtn.style.display = 'none';
+                addHomeBtn.style.display = 'none';
+            }
+            deferredPrompt = null;
+        } else {
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isAndroid = /Android/.test(navigator.userAgent);
+            
+            let msg = '';
+            if (isIOS) {
+                msg = 'Toca Compartir (️) → "Agregar a pantalla de inicio"';
+            } else if (isAndroid) {
+                msg = 'Toca el menú () → "Instalar app" o "Agregar a pantalla de inicio"';
+            } else {
+                msg = 'Toca el ícono de instalación en la barra de direcciones';
+            }
+            
+            alert('📲 ' + msg);
+        }
+    }
+    
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        installBtn.style.display = 'none';
+        addHomeBtn.style.display = 'none';
+    }
+</script>
+</body>
+</html>

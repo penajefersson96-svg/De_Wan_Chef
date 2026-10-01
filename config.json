@@ -1,0 +1,19 @@
+{
+  "restaurant": {
+    "name": "De wan chef",
+    "tagline": "Sabor chino auténtico y al wok",
+    "whatsapp": "584228884507",
+    "address": "Iris, Av. Independencia, Los Teques 1201, Miranda",
+    "hours": "Lun-Dom 11:30am - 9:00pm",
+    "deliveryUntil": "8:30pm",
+    "social": {
+      "instagram": "dewan.chef",
+      "tiktok": "dewanchef"
+    }
+  },
+  "currency": {
+    "usdToVes": 36.50,
+    "lastUpdate": "2026-10-01",
+    "autoUpdate": false
+  }
+}

@@ -105,6 +105,37 @@
 
     <script src="js/app.js"></script>
     <script>
+    // Registrar Service Worker para actualizaciones automáticas
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('SW registrado:', registration.scope);
+                    
+                    // Verificar actualizaciones periódicamente
+                    setInterval(() => {
+                        registration.update();
+                    }, 3600000); // Cada 1 hora
+                    
+                    // Avisar si hay nueva versión
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                if (confirm('Hay una versión nueva disponible. ¿Recargar para actualizar?')) {
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.log('Error al registrar SW:', error);
+                });
+        });
+    }
+</script>
+    <script>
     // PWA - Instalación de la app
     <script>
     let deferredPrompt;

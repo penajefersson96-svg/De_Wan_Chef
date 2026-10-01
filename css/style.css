@@ -301,41 +301,22 @@ footer { background: #1a1a1a; color: white; padding: 2.5rem 1rem; margin-top: 3r
 }
 
 .download-btn {
-    background: white;
-    color: #E8572A;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
     border: 2px solid white;
     border-radius: 25px;
-    padding: 0.7rem 1.5rem;
-    font-size: 0.95rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
+    margin-top: 0.8rem;
     transition: all 0.3s;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .download-btn:hover {
-    background: transparent;
-    color: white;
-    transform: translateY(-2px);
-}
-
-@media (max-width: 767px) {
-    .download-btn {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.9rem;
-        margin-bottom: 0.5rem;
-    }
-}
-#nf-banner, [data-netlify-banner], .netlify-badge {
-    display: none !important;
-}
-/* Nuclear option - ocultar cualquier cosa de Netlify */
-[id*="netlify"],
-[class*="netlify"],
-[data-netlify],
-footer:last-of-type {
-    display: none !important;
-    visibility: hidden !important;
-    height: 0 !important;
-    overflow: hidden !important;
+    background: white;
+    color: #E8572A;
 }

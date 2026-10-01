@@ -322,7 +322,7 @@ function sendWhatsApp() {
     });
     const total = window.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
     msg += `\n*Total: $${total.toFixed(2)} (Bs. ${(total * window.rate).toFixed(2)})*`;
-    msg += "\n\n📍 ¿Delivery o para llevar?";
+    msg += "\n\n📍 ¿Delivery o Pick up?";
     
     window.open(`https://wa.me/${window.phone}?text=${encodeURIComponent(msg)}`, '_blank');
 }

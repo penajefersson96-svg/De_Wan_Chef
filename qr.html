@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR De wan chef</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #E8572A 0%, #C41E3A 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .qr-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            max-width: 380px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .qr-card img.logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            border: 3px solid #E8572A;
+        }
+        .qr-card h1 {
+            color: #E8572A;
+            font-size: 1.6rem;
+            margin-bottom: 0.3rem;
+        }
+        .qr-card .tagline {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+        #qrcode {
+            display: flex;
+            justify-content: center;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #FFF5E6;
+            border-radius: 16px;
+        }
+        .cta-text {
+            color: #1a1a1a;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 1rem;
+            line-height: 1.4;
+        }
+        .cta-text span {
+            display: block;
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+        .print-btn {
+            margin-top: 2rem;
+            background: #E8572A;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+        @media print {
+            .print-btn { display: none; }
+            body { background: white; }
+            .qr-card { box-shadow: none; border: 2px solid #E8572A; }
+        }
+    </style>
+</head>
+<body>
+    <div class="qr-card">
+        <!-- Asegúrate de tener el logo.png en la carpeta assets -->
+        <img src="assets/logo.png" alt="De wan chef" class="logo">
+        <h1>De wan chef</h1>
+        <p class="tagline">Sabor chino auténtico y al wok</p>
+        
+        <div id="qrcode"></div>
+        
+        <p class="cta-text">
+            📱 Escanea y pide desde tu celular
+            <span>Menú digital • Precios en USD y Bs • Pedido directo a WhatsApp</span>
+        </p>
+        
+        <button class="print-btn" onclick="window.print()">🖨️ Imprimir este QR</button>
+    </div>
+
+    <script>
+        // URL REAL DE TU SITIO EN NETLIFY
+        const siteURL = 'https://dewanchef.netlify.app/';
+        
+        new QRCode(document.getElementById('qrcode'), {
+            text: siteURL,
+            width: 220,
+            height: 220,
+            colorDark: '#C41E3A', // Rojo oscuro para mejor contraste del scanner
+            colorLight: '#FFF5E6', // Fondo crema
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    </script>
+</body>
+</html>
